@@ -1,0 +1,41 @@
+import unittest
+import sys
+sys.path.append('./src')
+from eligibility import check_credit_score, check_income_level, check_loan_eligibility
+
+class TestEligibilityFunctions(unittest.TestCase):
+
+    def test_check_credit_score_above_threshold(self):
+        customer = {'credit_score': 750}
+        self.assertTrue(check_credit_score(customer))
+
+    def test_check_credit_score_below_threshold(self):
+        customer = {'credit_score': 650}
+        self.assertFalse(check_credit_score(customer))
+
+    def test_check_income_level_above_minimum(self):
+        customer = {'income': 40000}
+        self.assertTrue(check_income_level(customer))
+
+    def test_check_income_level_below_minimum(self):
+        customer = {'income': 25000}
+        self.assertFalse(check_income_level(customer))
+
+    def test_check_loan_eligibility_eligible(self):
+        customer = {'credit_score': 750, 'income': 40000}
+        self.assertTrue(check_loan_eligibility(customer))
+
+    def test_check_loan_eligibility_not_eligible_by_credit_score(self):
+        customer = {'credit_score': 650, 'income': 40000}
+        self.assertFalse(check_loan_eligibility(customer))
+
+    def test_check_loan_eligibility_not_eligible_by_income(self):
+        customer = {'credit_score': 750, 'income': 25000}
+        self.assertFalse(check_loan_eligibility(customer))
+
+    def test_check_loan_eligibility_not_eligible_by_both(self):
+        customer = {'credit_score': 650, 'income': 25000}
+        self.assertFalse(check_loan_eligibility(customer))
+
+if __name__ == '__main__':
+    unittest.main()
